@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+
+		<style>
+			#page-loader {
+				position: fixed;
+				inset: 0;
+				z-index: 9999;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: opacity 1s ease 2s;
+				z-index: 1111;
+				width: 100vw;
+				height: 100vh;
+				background-color: var( --color-primary );
+			}
+
+			#page-loader .trusted__svg {
+				opacity: 0;
+				transform: scale(0);
+				animation: scaleIn .5s ease forwards 0.25s;
+			}
+
+			#page-loader .trusted__svg path {
+				stroke: var( --color-primary-tint );
+				animation: dash .5s ease forwards 0.25s;
+			}
+
+			
+
+			@keyframes scaleIn {
+				to {
+					opacity: 1;
+					transform: scale(1);
+				}
+			}
+
+			@keyframes dash {
+				to {
+					stroke-dashoffset: 0;
+					stroke: #D4EB3C;
+				}
+			}
+
+
+
+			#page-content {
+				opacity: 0;
+				transition: all 3s ease 1s;
+			}
+
+			.sveltekit-ready #page-loader {
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			.sveltekit-ready #page-content {
+				display: contents;
+				opacity: 1;
+			}
+		</style>
+
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		
+
+		<div id="page-content" >
+			%sveltekit.body%
+		</div>
+
+		<div id="page-loader">
+			<div class="loader-inner">
+				<svg class="trusted__svg" width="485" height="544" viewBox="0 0 485 544" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<g clip-path="url(#clip0_52_85)">
+						<path d="M271.481 0.302734C350.147 0.302734 411.822 31.0473 446.933 62.2451L448.584 63.7314C460.728 74.9106 468.925 90.1799 468.925 106.392C468.925 120.672 464.834 132.798 452.68 147.125L452.678 147.127L294.76 335.037C283.42 348.348 271.335 353.416 256.104 353.416C225.605 353.416 203.372 332.106 203.372 302.595C203.372 290.233 206.311 278.147 215.449 268.998L215.477 268.969L339.486 123.297L339.839 122.883L339.396 122.566C321.932 110.049 294.017 103.918 271.481 103.918C183.048 103.918 113.061 179.179 113.061 271.803C113.061 364.424 182.061 439.687 271.481 439.688C319.73 439.688 355.731 419.099 380.453 393.366C397.067 379.898 408.144 367.838 429.402 367.838C460.879 367.838 484.303 390.325 484.303 421.817C484.303 432.915 478.259 447.208 468.069 458.392L468.061 458.401L468.053 458.412C429.313 505.663 358.679 543.5 271.679 543.5C117.193 543.5 0.5 423.716 0.5 272C0.500062 120.283 116.208 0.500232 271.481 0.302734Z" stroke="#D4EB3C"/>
+					</g>
+					<defs>
+					<clipPath id="clip0_52_85">
+						<rect width="485" height="544" fill="white"/>
+					</clipPath>
+					</defs>
+				</svg>
+			</div>
+		</div>
+	</body>
+</html>
+
+
