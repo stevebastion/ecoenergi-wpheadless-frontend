@@ -1,14 +1,4 @@
-/*import adapter from '@sveltejs/adapter-auto';
-
-export default {
-  kit: {
-    adapter: adapter()
-  }
-};
-*/ 
-
-
-import adapter from '@sveltejs/adapter-cloudflare';
+import adapter from '@sveltejs/adapter-vercel';
 
 export default {
   kit: {
