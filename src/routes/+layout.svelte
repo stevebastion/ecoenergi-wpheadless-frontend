@@ -1,19 +1,16 @@
 <script>
 
   import { onMount } from 'svelte';
-   import '$lib/styles/app.css';
+  import '@fontsource/poppins/400.css';
+  import '@fontsource/poppins/400-italic.css';
+  import '@fontsource/poppins/600.css';
+  import '@fontsource/poppins/600-italic.css';
+  import '$lib/styles/app.css';
   import Header from '$lib/components/Header.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import NavProgress from '$lib/components/common/NavProgress.svelte';
   // import app.css 
 
-    import { beforeNavigate } from '$app/navigation';
-
-  beforeNavigate(() => {
-    if (document.startViewTransition) {
-      document.startViewTransition(() => Promise.resolve());
-    }
-  });
-  
 
   export let data;
 
@@ -31,18 +28,14 @@
  
 </script>
 
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
-</svelte:head>
+<a class="skip-link" href="#main">Skip to main content</a>
 
+<NavProgress />
 
-
-<div class="app" style="view-transition-name: main;" >
+<div class="app">
   <Header nav={data.navigation.main}   />
 
-  <main >
+  <main id="main" tabindex="-1">
     <slot />
   </main>
 

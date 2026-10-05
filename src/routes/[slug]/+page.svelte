@@ -14,10 +14,10 @@
 
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.pageData.seo}
   globalSeo={data.global.data.defaultSeo}
-  url={$page.url.href}
+  pageTitle={data.pageData.title}
 />
 
 <section class="article" data-header-theme="dark">

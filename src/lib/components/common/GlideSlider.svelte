@@ -44,11 +44,11 @@
 
   {#if useArrows}
   <div class="glide__arrows" data-glide-el="controls">
-    <button class=" glide__arrow--left btn" data-glide-dir="<"><svg width="25" height="19" viewBox="0 0 25 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <button type="button" class=" glide__arrow--left btn" data-glide-dir="<" aria-label="Previous slide"><svg aria-hidden="true" focusable="false" width="25" height="19" viewBox="0 0 25 19" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M8.24358 17.6438L1.08578 10.486C0.304736 9.70494 0.304736 8.43861 1.08578 7.65756L8.24358 0.499766M5.74341 9.07178L24.3161 9.07178" stroke="#F0F8FA" stroke-linecap="round"/>
 </svg>
 </button>
-    <button class=" glide__arrow--right btn" data-glide-dir=">"><svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <button type="button" class=" glide__arrow--right btn" data-glide-dir=">" aria-label="Next slide"><svg aria-hidden="true" focusable="false" width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M16.5725 3.75025L23.7303 10.9081C24.5114 11.6891 24.5114 12.9554 23.7303 13.7365L16.5725 20.8943M19.0727 12.3223L0.5 12.3223" stroke="#F0F8FA" stroke-linecap="round"/>
 </svg>
 </button>

@@ -20,7 +20,6 @@
     function updateViewport() {
       if (!browser) return;
       isMobile = window.innerWidth <= 1023;
-      console.log('isMobile:', isMobile);
     }
 
     onMount(() => {
@@ -55,6 +54,31 @@
     openSubmenuId = openSubmenuId === id ? null : id;
   }
 
+  // Desktop: open on hover or keyboard focus, close on leave / Escape.
+  function openSubmenu(id) {
+    if (isMobile) return;
+    openSubmenuId = id;
+  }
+
+  function closeSubmenu(id, event) {
+    if (isMobile) return;
+    // Keep open while focus moves between the parent link and its children.
+    if (event?.relatedTarget && event.currentTarget.contains(event.relatedTarget)) return;
+    if (openSubmenuId === id) openSubmenuId = null;
+  }
+
+  function onKeydown(event) {
+    if (event.key !== 'Escape') return;
+    if (openSubmenuId !== null) {
+      const parent = event.currentTarget.querySelector(':scope > a');
+      openSubmenuId = null;
+      if (!isMobile) parent?.focus();
+    } else if (isOpen) {
+      closeNav();
+      document.querySelector('.nav-toggle')?.focus();
+    }
+  }
+
   // Close menu on route change
   const unsubscribe = page.subscribe(() => {
     if (browser) closeNav();
@@ -71,15 +95,24 @@
       </a>
     </figure>
 
-    <ul class="nav-links">
+    <ul class="nav-links" id="primary-nav">
       {#each headerNav as item}
+        <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
         <li
           class:has-children={item.items?.length}
           class:is-active={isNavItemActive(item, $page.url.pathname)}
           class:is-expanded={openSubmenuId === item.id}
+          on:mouseenter={() => item.items?.length && openSubmenu(item.id)}
+          on:mouseleave={(e) => closeSubmenu(item.id, e)}
+          on:focusin={() => item.items?.length && openSubmenu(item.id)}
+          on:focusout={(e) => closeSubmenu(item.id, e)}
+          on:keydown={onKeydown}
         >
           <a
             href={resolveNavPath(item)}
+            aria-current={isNavItemActive(item, $page.url.pathname) ? 'page' : undefined}
+            aria-haspopup={item.items?.length ? 'true' : undefined}
+            aria-expanded={item.items?.length ? openSubmenuId === item.id : undefined}
               on:click={(e) => {
                   if (isMobile && isOpen && item.items?.length) {
                     e.preventDefault();        // 👈 ONLY block on mobile submenu tap
@@ -93,7 +126,10 @@
           </a>
 
           {#if item.items?.length}
-            <ul>
+            <ul aria-label="{item.title} submenu">
+              <li class="submenu-parent">
+                <a href={resolveNavPath(item)} on:click={closeNav}>{item.title} overview</a>
+              </li>
               {#each item.items as child}
                 <li>
                   <a href={resolveNavPath(child)} on:click={closeNav}>
@@ -110,6 +146,7 @@
    <button
       class="nav-toggle"
       aria-label="Toggle navigation"
+      aria-controls="primary-nav"
       aria-expanded={isOpen}
       on:click={toggleNav}
     >
@@ -139,6 +176,7 @@
     border-radius: var(--border-radius);
     background: rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: var(--shadow-light);
     z-index: 99;
     transition: all 0.3s ease;
@@ -191,10 +229,33 @@
     pointer-events: none;
   }
 
-  li.has-children:hover ul {
+  li.has-children:hover ul,
+  li.has-children:focus-within ul,
+  li.has-children.is-expanded ul {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+  }
+
+  /* Invisible bridge across the header padding so the pointer can reach the
+     dropdown without it closing. */
+  li.has-children:hover::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 3rem;
+  }
+
+  /* Desktop dropdown lists stack and the overview link is mobile-only. */
+  li.has-children ul {
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .submenu-parent {
+    display: none;
   }
 
   .nav-toggle {
@@ -230,7 +291,8 @@
       padding: 8vh 5vw;
       gap: 2rem;
       transform: translateX(-100%);
-      transition: transform 0.35s ease;
+      visibility: hidden;
+      transition: transform 0.35s ease, visibility 0s linear 0.35s;
       z-index: 100;
       height: 100vh;
       width: 100vw;
@@ -239,6 +301,8 @@
 
     header.is-open .nav-links {
       transform: translateX(0);
+      visibility: visible;
+      transition: transform 0.35s ease, visibility 0s;
     }
 
     .nav-links > li {
@@ -259,10 +323,25 @@
       display: none;
       opacity: 1;
       visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Edge-to-edge bar on mobile: keep only the bottom hairline. */
+    header {
+      border-width: 0 0 1px 0;
     }
 
     li.has-children.is-expanded ul {
-      display: block;
+      display: flex;
+      pointer-events: auto;
+    }
+
+    li.has-children::after {
+      display: none;
+    }
+
+    .submenu-parent {
+      display: list-item;
     }
 
     li.has-children > a {

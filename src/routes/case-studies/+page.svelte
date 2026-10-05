@@ -10,18 +10,13 @@
   // SEO
   import MetaHead  from '$lib/components/seo/MetaHead.svelte';
 
-   const pageSEO = {
-    title: 'Case Studies - EcoEnergi',
-    description: 'Explore our portfolio of successful projects showcasing our expertise in energy solutions, sustainability, and innovation at Eco Energi.'
-  }
 
   //console.log('Case Studies data:', data);
 </script>
 
-<MetaHead 
-  pageSeo={pageSEO}
-  globalSeo={data.global.data.defaultSeo}
-  url={data.currentUrl}
+<MetaHead
+  pageTitle="Case Studies"
+  pageDescription="Explore our portfolio of successful projects showcasing our expertise in energy solutions, sustainability and innovation at Eco Energi."
 />
 
 <Masthead

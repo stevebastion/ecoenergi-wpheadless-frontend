@@ -9,18 +9,13 @@
   // SEO
   import MetaHead  from '$lib/components/seo/MetaHead.svelte';
 
-  const pageSEO = {
-    title: 'Articles - Eco Energi',
-    description: 'Stay updated with the latest news and insights on energy solutions, sustainability, and industry trends from Eco Energi.'
-  }
 
   export let data;
 </script>
 
-<MetaHead 
-  pageSeo={pageSEO}
-  globalSeo={data.global.data.defaultSeo}
-  url={$page.url.href}
+<MetaHead
+  pageTitle="Latest News & Energy Insights"
+  pageDescription="Stay updated with the latest news and insights on energy solutions, sustainability, and industry trends from Eco Energi."
 />
 
 <section class="container" data-header-theme="dark">

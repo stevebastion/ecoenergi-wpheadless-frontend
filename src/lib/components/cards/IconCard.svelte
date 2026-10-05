@@ -3,12 +3,34 @@
     export let iconSrc = "";
     export let description = "";
     export let layout = "std";
+    /** Force the title onto two lines, split as evenly as possible. */
+    export let twoLines = false;
+
+    // "A suitable setup" -> ["A suitable", "setup"]. Picks the word boundary that
+    // keeps the longer line as short as possible. Single words stay on one line.
+    function splitTitle(text) {
+        const words = (text || '').trim().split(/\s+/);
+        if (words.length < 2) return [text];
+
+        let best = 1;
+        let bestWidth = Infinity;
+        for (let i = 1; i < words.length; i++) {
+            const width = Math.max(words.slice(0, i).join(' ').length, words.slice(i).join(' ').length);
+            if (width < bestWidth) {
+                bestWidth = width;
+                best = i;
+            }
+        }
+        return [words.slice(0, best).join(' '), words.slice(best).join(' ')];
+    }
+
+    $: titleLines = twoLines ? splitTitle(label) : [label];
 </script>
 <div class="card card--icon card-layout--{layout}">
     {#if iconSrc}
     <figure class="card__icon">
         {#if iconSrc}
-            <img src="{iconSrc}" alt="{label} icon" />
+            <img src="{iconSrc}" alt="" />
         {:else}
             &mdash;
         {/if}
@@ -17,7 +39,9 @@
     <div class="card__label">
         {#if label}
             <header>
-                <h3>{label}</h3>
+                <h3>
+                    {#each titleLines as line, i}{line}{#if i < titleLines.length - 1}<br />{/if}{/each}
+                </h3>
             </header>
         {/if}
         {#if description}
@@ -39,6 +63,8 @@
     }
 
     h3 {
+        /* each forced line still balances if it has to wrap on a narrow screen */
+        text-wrap: balance;
         font-size: var( --type-40 );
         font-weight: var( --weight-semi-bold );
         margin-bottom: 2rem;

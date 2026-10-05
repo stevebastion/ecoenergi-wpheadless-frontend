@@ -403,34 +403,6 @@ h5 {
 	}
 }
 
-/* Transitions */
-
-::view-transition-old(main),
-::view-transition-new(main) {
-  animation: fade-slide 1200ms ease;
-}
-
-@keyframes fade-slide {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-	/*  blur */ 
-	filter: blur(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-	filter: blur(0);
-  }
-}
-
-/* Accessibility: respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation: none !important;
-  }
-}
 
 main:not(:has(.masthead)) > section:first-child {
 	padding-top: var( --mastheadPadding );
@@ -453,9 +425,9 @@ main:not(:has(.masthead)) > section:first-child {
         justify-content: space-between;
         gap: 3rem;
         border-radius: calc( var( --border-radius ) * 2 );
-        padding: 1rem 2rem;
+        padding: 1rem 2.8rem 1rem 2rem;
         font-weight: var( --weight-semi-bold );
-        font-size: 1.6rem;
+        font-size: 1.4rem;
         text-decoration: none;
         color: var( --color-primary );
         border: 1px solid var( --color-secondary );
@@ -464,9 +436,17 @@ main:not(:has(.masthead)) > section:first-child {
         cursor: pointer;
     }
 
+    /* Arrow rests further left and slides right on hover, so it reads as travelling. */
     .btn svg {
-        transform: translateX( -10px );
+        flex: none;
+        transform: translateX( -2rem );
         transition: transform .4s ease-in-out;
+    }
+
+    /* Slider arrows (data-glide-dir) keep their own size. */
+    .btn:not([data-glide-dir]) svg {
+        width: 1.5rem;
+        height: auto;
     }
 
     .btn:hover {
@@ -485,8 +465,14 @@ main:not(:has(.masthead)) > section:first-child {
         color: var( --color-light ) !important;
     }
 
+    /* Hover text is always the dark blue, including the light variant. */
+    .btn.light:hover {
+        color: var( --color-primary ) !important;
+    }
+
     .btn.wide {
         gap: 5em;
+        padding-right: 4rem;
     }
 
 	.form__error ,
@@ -531,5 +517,43 @@ main:not(:has(.masthead)) > section:first-child {
 @media screen and ( max-width: 767px ) {
 	.vr--space-m-bottomNone {
 		margin-bottom: 0;
+	}
+}
+
+/* Accessibility ------------------------------------------------------------ */
+
+/* Two-tone ring so focus is visible on both light and dark backgrounds. */
+:focus-visible {
+	outline: 2px solid var( --color-primary );
+	outline-offset: 2px;
+	box-shadow: 0 0 0 5px var( --color-secondary );
+}
+
+main:focus {
+	outline: none;
+	box-shadow: none;
+}
+
+.skip-link {
+	position: fixed;
+	top: 0;
+	left: 1rem;
+	z-index: 10000;
+	padding: 1rem 1.6rem;
+	background: var( --color-secondary );
+	color: var( --color-primary );
+	font-weight: var( --weight-semi-bold );
+	border-radius: 0 0 calc( var( --border-radius ) / 2 ) calc( var( --border-radius ) / 2 );
+	transform: translateY( -120% );
+	transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+	transform: translateY( 0 );
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.skip-link {
+		transition: none;
 	}
 }

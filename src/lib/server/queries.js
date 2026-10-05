@@ -297,7 +297,7 @@ query Services($first: Int = 100) {
       databaseId
       title
       slug
-      serviceFields { category coverImage { node { ...Media } } }
+      serviceFields { category bannerText svgIcon { node { ...Media } } coverImage { node { ...Media } } }
     }
   }
 }`;
@@ -346,5 +346,23 @@ query ServiceLandingByUri($uri: ID!) {
       bannerDescription
       servicesToShow
     }
+  }
+}`;
+
+/* ---- Sitemap ------------------------------------------------------------ */
+
+export const SITEMAP_QUERY = `
+query Sitemap {
+  pages(first: 100, where: { status: PUBLISH }) {
+    nodes { uri modified seo { metaRobotsNoindex } }
+  }
+  posts(first: 100, where: { status: PUBLISH }) {
+    nodes { slug modified seo { metaRobotsNoindex } }
+  }
+  caseStudies(first: 100, where: { status: PUBLISH }) {
+    nodes { slug modified seo { metaRobotsNoindex } }
+  }
+  services(first: 100, where: { status: PUBLISH }) {
+    nodes { slug modified serviceFields { category } seo { metaRobotsNoindex } }
   }
 }`;

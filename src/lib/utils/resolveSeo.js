@@ -1,51 +1,67 @@
-import { PUBLIC_WP_URL } from '$env/static/public';
+import { PUBLIC_SITE_URL, PUBLIC_WP_URL } from '$env/static/public';
 
-export function resolveSeo({
-  pageSeo = null,
-  globalSeo = null,
-  pageTitle = ''
-}) {
-  const resolved = {
-    title:
-      pageSeo?.metaTitle ||
-      globalSeo?.metaTitle ||
-      pageTitle,
+export const SITE_NAME = 'Eco Energi';
 
-    description:
-      pageSeo?.metaDescription ||
-      globalSeo?.metaDescription ||
-      '',
-
-    robots:
-      pageSeo?.metaRobots ||
-      globalSeo?.metaRobots ||
-      'index, follow',
-
-    canonical:
-      pageSeo?.canonicalURL ||
-      globalSeo?.canonicalURL ||
-      null,
-
-    image: resolveShareImage(pageSeo, globalSeo)
-  };
-
-  return resolved;
+/**
+ * Public origin of THIS site (no trailing slash). Falls back to the request
+ * origin so a missing env var never produces a canonical pointing nowhere.
+ */
+export function siteOrigin(requestOrigin = '') {
+	return (PUBLIC_SITE_URL || requestOrigin || '').replace(/\/+$/, '');
 }
 
-function resolveShareImage(pageSeo, globalSeo) {
-  const image =
-    pageSeo?.shareImage ||
-    globalSeo?.shareImage ||
-    null;
+/**
+ * Merge page-level SEO (Yoast, via `adaptYoastSeo`) over any fallbacks.
+ *
+ * Canonical is ALWAYS built from this site's origin + the current path. Yoast's
+ * own canonical points at the WordPress backend domain, which is not the page
+ * we want ranked.
+ */
+export function resolveSeo({
+	pageSeo = null,
+	globalSeo = null,
+	pageTitle = '',
+	pageDescription = '',
+	pageImage = null,
+	origin = '',
+	path = '/',
+	search = ''
+}) {
+	const base = siteOrigin(origin);
 
-  if (!image?.url) return null;
+	// Paginated lists canonicalise to themselves (?page=N), page 1 to the bare path.
+	const pageParam = new URLSearchParams(search).get('page');
+	const query = pageParam && pageParam !== '1' && /^\d+$/.test(pageParam) ? `?page=${pageParam}` : '';
 
-  return {
-    url: image.url.startsWith('http')
-      ? image.url
-      : `${PUBLIC_WP_URL}${image.url}`,
-    width: image.width,
-    height: image.height,
-    alt: image.alternativeText || ''
-  };
+	return {
+		title:
+			pageSeo?.metaTitle ||
+			globalSeo?.metaTitle ||
+			(pageTitle ? `${pageTitle} | ${SITE_NAME}` : SITE_NAME),
+
+		description:
+			pageSeo?.metaDescription || globalSeo?.metaDescription || pageDescription || '',
+
+		robots: pageSeo?.metaRobots || globalSeo?.metaRobots || 'index, follow',
+
+		canonical: `${base}${path === '/' ? '/' : path.replace(/\/+$/, '')}${query}`,
+
+		image: resolveShareImage(pageSeo?.shareImage || globalSeo?.shareImage || pageImage)
+	};
+}
+
+function resolveShareImage(image) {
+	if (!image?.url) return null;
+
+	return {
+		url: image.url.startsWith('http') ? image.url : `${PUBLIC_WP_URL}${image.url}`,
+		width: image.width || null,
+		height: image.height || null,
+		alt: image.alt || image.alternativeText || ''
+	};
+}
+
+/** "my-case-study" -> "My Case Study". Matches Breadcrumbs.svelte. */
+export function formatLabel(segment = '') {
+	return segment.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }

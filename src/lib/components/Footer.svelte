@@ -9,7 +9,7 @@
 <footer class="img-cover">
   <div class="container">
     <figure>
-      <img src="/logo.svg" width="219" alt="EcoEnergi" />
+      <img src="/logo.svg" width="219" alt="Eco Energi" />
     </figure>
     <div class="footer__items">
         <div class="footer__navs">
@@ -79,7 +79,7 @@
   </div>
   
   
- <img loading="lazy" src="/contact-bg.jpg" alt="Contact Us" />
+ <img loading="lazy" src="/contact-bg.jpg" alt="" />
 
 </footer>
 
@@ -170,7 +170,7 @@
 
   .footer__col h4 {
     color: var( --color-secondary ); 
-    font-weight: var( --weight-semi-bold );
+    font-weight: var( --weight-regular );
     font-size: var( --type-20 );
     margin: 0;
   }

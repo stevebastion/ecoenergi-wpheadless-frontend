@@ -19,16 +19,15 @@
         }
       )
 
-        console.log( 'Markers:', markers );
   
     }
 
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.pageData?.seo}
   globalSeo={data.global.data.defaultSeo}
-  url={$page.url.href}
+  pageTitle={data.pageData?.title || 'Contact'}
 />
 
 

@@ -34,8 +34,8 @@
         font-size: clamp( 7rem, 5rem + 5vw, 9rem );
       
         color: transparent;
-        -webkit-text-stroke: 2px var( --color-primary-tint );
-        text-stroke: 2px var( --color-primary-tint );
+        -webkit-text-stroke: 1px var( --color-primary-tint );
+        text-stroke: 1px var( --color-primary-tint );
         font-weight: 700;
         line-height: 1;
         margin-bottom: .5rem;

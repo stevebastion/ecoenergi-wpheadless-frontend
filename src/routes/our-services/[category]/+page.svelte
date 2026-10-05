@@ -13,20 +13,13 @@
     //console.log( 'Our Services Category Page Data:' );
     //console.log( data );
 
-     const defaultPageSeo = {
-        title: 'EcoEnergi | Our Services | ' + data.landingPage.title,
-        description: data.landingPage.intro || '',
-        imageUrl: data.landingPage.cover_image || null,
-        imageAlt: data.landingPage.title
-    };
-  
 
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.landingPage?.seo}
-  globalSeo={defaultPageSeo}
-  url={$page.url.href}
+  pageTitle={data.landingPage.banner_title || data.landingPage.title}
+  pageDescription={data.landingPage.banner_description}
 />
 
 <Masthead 
@@ -46,7 +39,8 @@
                 imageAlt="{service.cover_image?.alternativeText || service.title}"
                 imageWidth="{service.cover_image?.width}"
                 imageHeight="{service.cover_image?.height}"
-                description="{service.banner_title}"
+                description="{service.banner_text}"
+                iconURL="{service.svg_icon ? strapiMedia(service.svg_icon.url) : ''}"
             />
         {/each}
     {:else}

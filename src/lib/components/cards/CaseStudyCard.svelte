@@ -5,14 +5,18 @@
     export let description = "";
     export let layout = "std";
     export let className = "";
+    /** One word per line (CTA tiles). "&" stays with the word before it. */
+    export let splitTitle = false;
+
+    $: displayTitle = splitTitle ? (title || '').replace(/ & /g, '\u00a0& ') : title;
 </script>
 
 <a href="{url}" class="card card--case-study {layout} img-cover {className}">
     <div>
         <header>
             <h3>
-                {title}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <span class="card__title" class:card__title--split={splitTitle}>{displayTitle}</span>
+                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7.54348 1H20.5C21.6046 1 22.5 1.89543 22.5 3V15.9565M17.2029 6.2971L1 22.5" stroke="#D4EB3C" stroke-width="2" stroke-linecap="round"/>
                 </svg>
             </h3>
@@ -23,7 +27,7 @@
         </div>
         {/if}
     </div>
-    <img loading="lazy" src="{imageSrc}" alt="{title}" />
+    <img loading="lazy" src="{imageSrc}" alt="" />
 </a>
 
 
@@ -57,6 +61,7 @@
     }
 
     svg {
+         flex: none;
          transition: transform 0.3s ease;
     }
 
@@ -77,12 +82,18 @@
     h3 {
         color: var( --color-light );
         display: flex;
-        align-items: center;
+        align-items: flex-end;
+        justify-content: space-between;
         gap: 1rem;
         font-size: var( --type-30 );
         font-weight: var( --weight-semi-bold );
         margin: 0;
         white-space: break-spaces;
+    }
+
+    /* min-content = width of the longest word, so every space breaks the line. */
+    .card__title--split {
+        width: min-content;
     }
 
     .card__description {

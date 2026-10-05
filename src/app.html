@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
@@ -14,7 +14,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				transition: opacity 1s ease 2s;
+				transition: opacity 0.4s ease;
 				z-index: 1111;
 				width: 100vw;
 				height: 100vh;
@@ -50,22 +50,25 @@
 
 
 
-			#page-content {
-				opacity: 0;
-				transition: all 3s ease 1s;
-			}
-
 			.sveltekit-ready #page-loader {
 				opacity: 0;
 				pointer-events: none;
+				visibility: hidden;
+				transition: opacity 0.4s ease, visibility 0s linear 0.4s;
 			}
 
-			.sveltekit-ready #page-content {
+			#page-content {
 				display: contents;
-				opacity: 1;
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				#page-loader {
+					display: none;
+				}
 			}
 		</style>
 
+		<noscript><style>#page-loader { display: none; }</style></noscript>
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		
@@ -74,7 +77,7 @@
 			%sveltekit.body%
 		</div>
 
-		<div id="page-loader">
+		<div id="page-loader" aria-hidden="true">
 			<div class="loader-inner">
 				<svg class="trusted__svg" width="485" height="544" viewBox="0 0 485 544" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<g clip-path="url(#clip0_52_85)">

@@ -10,20 +10,21 @@
    import MetaHead  from '$lib/components/seo/MetaHead.svelte';
 
 
-     
-    const defaultPageSeo = {
-        title: 'EcoEnergi | Articles | ' + data.article.title,
-        description: data.article.intro || '',
-        imageUrl: data.article.cover || null,
-        imageAlt: data.article.title
-    };
-
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.article.seo}
-  globalSeo={defaultPageSeo}
-  url={$page.url.href}
+  pageTitle={data.article.title}
+  pageDescription={data.article.description}
+  pageImage={data.article.cover}
+  ogType="article"
+  publishedTime={data.article.publishedAt}
+  entity={{
+    type: 'Article',
+    headline: data.article.title,
+    datePublished: data.article.publishedAt,
+    ...(data.article.cover?.url ? { image: strapiMedia(data.article.cover.url) } : {})
+  }}
 />
 
 <section class="article" data-header-theme="dark">
@@ -37,7 +38,7 @@
                 
                 {#if data.article.cover}
                     <figure class="img-cover featured-image">
-                        <img loading="lazy" width="{data.article.cover.width}" height="{data.article.cover.height}" src={strapiMedia(data.article.cover.formats?.large?.url || data.article.cover.url)} alt={data.article.title} />
+                        <img loading="lazy" width="{data.article.cover.width}" height="{data.article.cover.height}" src={strapiMedia(data.article.cover.formats?.large?.url || data.article.cover.url)} alt={data.article.cover.alternativeText || ''} />
                     </figure>
                 {/if}
             </div>

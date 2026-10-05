@@ -13,22 +13,21 @@
 
     export let data;
 
-    
-    const defaultPageSeo = {
-        title: 'EcoEnergi | Our Services | ' + data.service.title,
-        description: data.service.intro || '',
-        imageUrl: data.service.cover_image || null,
-        imageAlt: data.service.title
-    };
 
 
 
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.service.seo}
-  globalSeo={defaultPageSeo}
-  url={$page.url.href}
+  pageTitle={data.service.title}
+  pageDescription={data.service.banner_text}
+  pageImage={data.service.cover_image}
+  entity={{
+    type: 'Service',
+    name: data.service.title,
+    ...(data.service.banner_text ? { description: data.service.banner_text } : {})
+  }}
 />
 
 <Masthead 
@@ -75,7 +74,8 @@
                     <div class="grid--3">
                         {#each block.Cards as card}
                             <IconCard 
-                                title="{card.Title}" 
+                                label="{card.Title}" 
+                                twoLines={true}
                                 iconSrc="{strapiMedia(card.Icon?.url)}" 
                                 iconAlt="{card.Icon?.alternativeText || card.Title}" 
                                 iconWidth="{card.Icon?.width}"
@@ -89,7 +89,7 @@
                     <div class="grid--4">
                         {#each block.count_cards as card, i}
                             <CountCard 
-                                title="{card.title}" 
+                                label="{card.title}" 
                                 count="{i + 1}" 
                                 description="{card.content}"
                             />
@@ -133,7 +133,7 @@
         
 
         .intro-section figure {
-             margin-top: -50%;
+             margin-top: -75%;
              aspect-ratio: 55 / 67;
              max-height: auto;
         }

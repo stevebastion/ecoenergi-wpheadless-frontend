@@ -10,20 +10,14 @@
 
   //console.log('Case study data:', data);
 
-       
-    const defaultPageSeo = {
-        title: 'EcoEnergi | Case Studies | ' + data.caseStudy.title,
-        description: data.caseStudy.intro || '',
-        imageUrl: data.caseStudy.cover_image || null,
-        imageAlt: data.caseStudy.title
-    };
-  
+
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.caseStudy.seo}
-  globalSeo={defaultPageSeo}
-  url={$page.url.href}
+  pageTitle={data.caseStudy.title}
+  pageDescription={data.caseStudy.description}
+  pageImage={data.caseStudy.cover_image}
 />
 
 <Masthead 
@@ -40,7 +34,7 @@
                 
                 {#if data.caseStudy.cover_image}
                     <figure class="img-cover featured-image">
-                        <img loading="lazy" width="{data.caseStudy.cover_image.width}" height="{data.caseStudy.cover_image.height}" src={strapiMedia(data.caseStudy.cover_image.formats?.large?.url || data.caseStudy.cover_image.url)} alt={data.caseStudy.title} />
+                        <img loading="lazy" width="{data.caseStudy.cover_image.width}" height="{data.caseStudy.cover_image.height}" src={strapiMedia(data.caseStudy.cover_image.formats?.large?.url || data.caseStudy.cover_image.url)} alt={data.caseStudy.cover_image.alternativeText || ''} />
                     </figure>
                 {/if}
 

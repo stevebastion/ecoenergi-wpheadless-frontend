@@ -11,14 +11,12 @@
 	import MetaHead  from '$lib/components/seo/MetaHead.svelte';
 	export let data;
 
-	//console.log('About page data:', data);
-	console.log( data );
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.aboutPage?.seo}
   globalSeo={data.global.data.defaultSeo}
-  url={$page.url.href}
+  pageTitle={data.aboutPage?.title || 'About us'}
 />
 
 
@@ -71,7 +69,7 @@
 	{#if data.aboutPage.why_choose_us_cards.length > 0}
 		{#each data.aboutPage.why_choose_us_cards as card}
 			<IconCard
-				title={card.Title}
+				label={card.Title}
 				description={card.Description}
 				iconSrc={strapiMedia(card.Icon?.url)}
 				layout={'alt'}
@@ -121,7 +119,6 @@
 		max-width: 300px;
 		margin:0 auto  1em auto;
 		background-color: var( --color-brand-light );
-		outline: 1px solid red;
 	}
 
 	.panel--dark {

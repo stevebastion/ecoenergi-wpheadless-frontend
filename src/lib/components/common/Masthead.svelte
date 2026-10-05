@@ -70,11 +70,12 @@
         }
 
         .masthead:not(.masthead--block) {
-            background-color: transparent
+            background-color: transparent;
+            padding-top: 11rem;
         }
 
         .masthead.masthead--block {
-            padding-top: clamp(10em, 40vh, 30em);
+            padding-top: clamp(10em, 40vh, 20em);
             display: flex;
             align-items: flex-end;
             justify-content: center;
@@ -105,8 +106,8 @@
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
-            max-height: 700px;
+            /* 100vh capped at 700px; once the viewport passes 1400px tall, 50vh */
+            height: max( min( 100vh, 700px ), 50vh );
             background: var( --color-secondary );
             z-index: 0;
             background-image: url('/std-header.jpg');
@@ -120,8 +121,8 @@
             top: 0;
             left: 0;
             width: 100vw;
-            height: 100vh;
-            max-height: 700px;
+            /* 100vh capped at 700px; once the viewport passes 1400px tall, 50vh */
+            height: max( min( 100vh, 700px ), 50vh );
             background-color: var( --color-primary );
             opacity: 0.85;
             z-index: 1;

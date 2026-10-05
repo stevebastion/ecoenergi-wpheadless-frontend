@@ -16,7 +16,7 @@
           
             
         </div>
-         <img loading="lazy" src="/contact-bg-2.jpg" alt="Contact Us" />
+         <img loading="lazy" src="/contact-bg-2.jpg" alt="" />
     </div>
     
 </section>

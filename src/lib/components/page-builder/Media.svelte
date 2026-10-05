@@ -2,14 +2,13 @@
     import { strapiMedia } from '$lib/utils/media';
     export let data;
 
-    console.log('Media component data:', data);
 
 </script>
 
 {#if data && data.file }
     {#if data.file.mime === 'image/jpeg' || data.file.mime === 'image/png' || data.file.mime === 'image/gif' || data.file.mime === 'image/webp'}
         <figure class="image-16_9 m-image-4_3 img-cover">
-            <img loading="lazy" width={data.file.formats?.large?.width} height={data.file.formats?.large?.height} src={strapiMedia(data.file.formats?.large?.url)} alt={data.file.alternativeText || 'Image'} />
+            <img loading="lazy" width={data.file.formats?.large?.width} height={data.file.formats?.large?.height} src={strapiMedia(data.file.formats?.large?.url)} alt={data.file.alternativeText || ''} />
         </figure>
     {:else if data.file.mime === 'video/mp4' || data.file.mime === 'video/webm' || data.file.mime === 'video/ogg'}
         <div class="video-frame">

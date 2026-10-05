@@ -219,6 +219,8 @@ export function adaptServiceCard(svc) {
 		title: svc.title || '',
 		slug: svc.slug || '',
 		category: acfSelectValue(f.category),
+		banner_text: f.bannerText || '',
+		svg_icon: adaptMedia(f.svgIcon),
 		cover_image: adaptMedia(f.coverImage)
 	};
 }

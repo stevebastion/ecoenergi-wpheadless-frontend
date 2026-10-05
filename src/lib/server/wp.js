@@ -1,5 +1,6 @@
 import { env as privateEnv } from '$env/dynamic/private';
 import { env as publicEnv } from '$env/dynamic/public';
+import { dev } from '$app/environment';
 
 /**
  * WordPress (WPGraphQL) data layer — SERVER ONLY.
@@ -43,10 +44,9 @@ export async function wpQuery(query, variables = {}, { required = true, fallback
 
 	// Log every outgoing query so the dev terminal shows what we're asking WP for.
 	const opName = query.match(/\b(query|mutation)\s+(\w+)/)?.[2] || 'anonymous';
-	console.log(`[wp] → ${opName} @ ${endpoint}`);
-	console.log(query.trim());
-	if (Object.keys(variables).length) {
-		console.log('[wp] variables:', variables);
+	if (dev) {
+		console.log(`[wp] → ${opName} @ ${endpoint}`);
+		if (Object.keys(variables).length) console.log('[wp] variables:', variables);
 	}
 
 	try {
@@ -66,8 +66,7 @@ export async function wpQuery(query, variables = {}, { required = true, fallback
 			return fallback;
 		}
 
-		console.log(`[wp] ← ${opName} response:`);
-		console.dir(json.data, { depth: null, colors: true });
+		if (dev) console.log(`[wp] ← ${opName} ok`);
 		return json.data;
 	} catch (err) {
 		console.warn(`[wp] fetch failed: ${err.message} (${WP_URL}${WP_GRAPHQL_ENDPOINT})`);

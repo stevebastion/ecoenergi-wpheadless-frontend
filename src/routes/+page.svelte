@@ -23,10 +23,9 @@
 
 </script>
 
-<MetaHead 
+<MetaHead
   pageSeo={data.pageData?.seo}
   globalSeo={data.global.data.defaultSeo}
-  url={$page.url.href}
 />
 
 <section class="hero" data-header-theme="light">
@@ -68,7 +67,11 @@
 		<img
 			class="masthead__image img-cover"
 			src={data.pageData.banner_video_poster.url}
-			alt="{data.pageData.title} banner image"
+			width={data.pageData.banner_video_poster.width}
+			height={data.pageData.banner_video_poster.height}
+			fetchpriority="high"
+			decoding="async"
+			alt=""
 		/>
 	{/if}
 </section>

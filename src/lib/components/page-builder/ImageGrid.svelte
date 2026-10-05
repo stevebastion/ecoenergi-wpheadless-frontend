@@ -11,9 +11,9 @@
         {#if item.mime === 'image/jpeg' || item.mime === 'image/png' || item.mime === 'image/gif' || item.mime === 'image/webp'}
             <figure >
                 {#if item.formats.medium}
-                <img loading="lazy" width={item.formats.medium.width} height={item.formats.medium.height} src={strapiMedia(item.formats.medium.url)} alt={item.alternativeText || 'Image'} />
+                <img loading="lazy" width={item.formats.medium.width} height={item.formats.medium.height} src={strapiMedia(item.formats.medium.url)} alt={item.alternativeText || ''} />
                 {:else}
-                <img loading="lazy" width={item.width} height={item.height} src={strapiMedia(item.url)} alt={item.alternativeText || 'Image'} />
+                <img loading="lazy" width={item.width} height={item.height} src={strapiMedia(item.url)} alt={item.alternativeText || ''} />
                 {/if}
             </figure>
         {:else if item.mime === 'video/mp4' || item.mime === 'video/webm' || item.mime === 'video/ogg'}

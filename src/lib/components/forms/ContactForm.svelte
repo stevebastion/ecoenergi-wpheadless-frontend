@@ -71,13 +71,18 @@
 </svelte:head>
 
 <div class="form">
-  {#if errorMsg}
-    <p class="form__error">{errorMsg}</p>
-  {/if}
+  <!-- Live regions stay in the DOM so screen readers announce changes. -->
+  <div role="alert">
+    {#if errorMsg}
+      <p class="form__error">{errorMsg}</p>
+    {/if}
+  </div>
 
-  {#if success}
-    <p class="form__success">Thanks — we’ll be in touch shortly.</p>
-  {/if}
+  <div role="status">
+    {#if success}
+      <p class="form__success">Thanks — we’ll be in touch shortly.</p>
+    {/if}
+  </div>
 
   <form bind:this={formEl} on:submit={handleSubmit}>
     <div class="form__fields">
@@ -102,7 +107,7 @@
       </div>
 
       <div class="form__field form__field--wide">
-        <label for="message">Message</label>
+        <label for="message">Message <span>*</span></label>
         <textarea id="message" name="message" placeholder="Message" required></textarea>
       </div>
     </div>
@@ -114,9 +119,9 @@
         data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}
       ></div>
 
-      <button type="submit" class="btn" disabled={loading}>
+      <button type="submit" class="btn" disabled={loading} aria-busy={loading}>
         {loading ? 'Sending…' : 'Submit'}
-        <svg width="11" height="8" viewBox="0 0 11 8" fill="none">
+        <svg aria-hidden="true" focusable="false" width="11" height="8" viewBox="0 0 11 8" fill="none">
           <path
             d="M7.11955 0.499918L9.54289 2.92326C9.93342 3.31379 9.93342 3.94695 9.54289 4.33748L7.11955 6.76082M7.28262 3.6304L0.49997 3.6304"
             stroke="#56BEE1"
