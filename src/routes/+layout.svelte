@@ -9,6 +9,7 @@
   import Header from '$lib/components/Header.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import NavProgress from '$lib/components/common/NavProgress.svelte';
+  import CookieConsent from '$lib/components/common/CookieConsent.svelte';
   // import app.css 
 
 
@@ -29,6 +30,8 @@
 </script>
 
 <a class="skip-link" href="#main">Skip to main content</a>
+
+<CookieConsent />
 
 <NavProgress />
 

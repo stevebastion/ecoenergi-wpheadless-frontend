@@ -27,6 +27,7 @@ Needs a reachable WordPress `/graphql` with content, or the layout falls back to
 | `WP_GRAPHQL_TOKEN` | Optional Bearer token (drafts / locked-down endpoint). Server-only |
 | `PUBLIC_SITE_URL` | **Public origin of this site.** Canonical, OG, sitemap and JSON-LD are built from it. Launch value will presumably be `https://ecoenergi.co.uk` (the CURRENT live site) - set it at cutover only, not before. Must be set on Vercel (production) or canonicals fall back to the request origin. Currently `http://localhost:5173` locally |
 | `PUBLIC_MAPBOX_TOKEN`, `PUBLIC_TURNSTILE_SITE_KEY` | Third party |
+| `PUBLIC_GA_ID` | Google Analytics measurement ID (`G-...`). **Blank = analytics never loads**, even if a visitor accepts. Setting it also opens the CSP for Google (`svelte.config.js`) |
 
 ## Data layer: the only place WordPress is touched
 
@@ -78,6 +79,17 @@ Vercel ISR with a bypass token or the Vercel cache API (not built, untested).
 - **Errors**: `src/routes/+error.svelte` (404 + 500, with Try again on 5xx) renders inside the layout; `src/error.html` is the self-contained last-resort page if the layout itself fails. `handleError` logs 5xx and returns a generic message.
 - **Favicons/PWA**: `static/favicon.ico|svg`, `apple-touch-icon.png`, `icon-192/512.png`, `icon-maskable-512.png`, `site.webmanifest`, `og-default.png` (fallback og:image). The "e" mark is the loader swoosh from `app.html`.
 - **Tests**: Vitest, files `*.test.js` next to the code. `src/lib/guards.test.js` fails on: `<img>` without alt, `target=_blank` without noopener, Google Fonts, stray `console.log`, a second JSON-LD source, unquoted `url({...})`. Svelte is compiled with `dev:false` under Vitest (`svelte.config.js`).
+
+## Cookie consent
+
+- `lib/consent/consent.js` (categories, cookie format, parse/serialise), `analytics.js` (consent-gated gtag + Consent Mode v2), `consentStore.js` (browser store), `components/common/CookieConsent.svelte` (banner + preferences dialog, mounted in `+layout.svelte`), footer "Cookie settings" button.
+- Categories: Strictly necessary (locked), Analytics, Marketing (nothing uses it yet; it only sets the Consent Mode ad signals). Nothing optional is pre-ticked; Accept and Reject are equal weight.
+- Choice is a first-party cookie `ee_consent` (`{v,t,analytics,marketing}`, 180 days, SameSite=Lax). Bump `CONSENT_VERSION` to re-ask everyone (e.g. when adding a tool/category).
+- The banner is client-side only (pages are CDN-cached, so it must not depend on the request cookie); `ready` stays false during SSR so there is no flash.
+- GA: with no `PUBLIC_GA_ID`, accepting does nothing (faux). With one: gtag.js loads only after Analytics is accepted, `anonymize_ip`, manual `page_view` per client-side navigation, GA cookies are expired on withdrawal.
+- **Adding any new tracking/marketing script**: add it to a category in `consent.js`, load it only from `applyAnalytics`-style gated code, add its origin to the CSP, and bump `CONSENT_VERSION`.
+- Mapbox GL sends telemetry to events.mapbox.com and may store an anonymous id in localStorage; Turnstile is a third-party widget. Both are listed under necessary/privacy text, but have legal confirm that classification.
+- Browser-tested (Playwright + Chrome, 26 checks: banner, persistence, equal buttons, focus trap, Escape, GA only after consent, withdrawal, SPA page views). That script is not in the repo.
 
 ## Contact form
 

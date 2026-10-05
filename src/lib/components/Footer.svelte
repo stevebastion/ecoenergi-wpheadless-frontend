@@ -4,6 +4,7 @@
 
    import { strapiMedia } from '$lib/utils/media';
    import { resolveNavPath } from '$lib/utils/resolveNavPath';
+  import { openPreferences } from '$lib/consent/consentStore.js';
 </script>
 
 <footer class="img-cover">
@@ -68,6 +69,7 @@
       <p>
         &copy; {new Date().getFullYear()} EcoEnergi. All rights reserved.
         <a href="/privacy-policy">Privacy Policy</a>
+        <button type="button" class="cookie-settings" on:click={openPreferences}>Cookie settings</button>
       </p>
 
       <a href="https://studiobastion.com" target="_blank" rel="noopener noreferrer">
@@ -128,6 +130,22 @@
   }
 
   .footer__copyright a:hover {
+    color: var( --color-light );
+  }
+
+  .cookie-settings {
+    margin-left: 1rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: var( --color-primary-tint );
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  .cookie-settings:hover {
     color: var( --color-light );
   }
 
