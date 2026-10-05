@@ -1,28 +1,11 @@
 <script>
+    import { splitTitle } from '$lib/utils/splitTitle';
     export let label = "Title";
     export let iconSrc = "";
     export let description = "";
     export let layout = "std";
     /** Force the title onto two lines, split as evenly as possible. */
     export let twoLines = false;
-
-    // "A suitable setup" -> ["A suitable", "setup"]. Picks the word boundary that
-    // keeps the longer line as short as possible. Single words stay on one line.
-    function splitTitle(text) {
-        const words = (text || '').trim().split(/\s+/);
-        if (words.length < 2) return [text];
-
-        let best = 1;
-        let bestWidth = Infinity;
-        for (let i = 1; i < words.length; i++) {
-            const width = Math.max(words.slice(0, i).join(' ').length, words.slice(i).join(' ').length);
-            if (width < bestWidth) {
-                bestWidth = width;
-                best = i;
-            }
-        }
-        return [words.slice(0, best).join(' '), words.slice(best).join(' ')];
-    }
 
     $: titleLines = twoLines ? splitTitle(label) : [label];
 </script>

@@ -16,7 +16,7 @@
           
             
         </div>
-         <img loading="lazy" src="/contact-bg-2.jpg" alt="" />
+         <img loading="lazy" src="/contact-bg-2.webp" alt="" />
     </div>
     
 </section>

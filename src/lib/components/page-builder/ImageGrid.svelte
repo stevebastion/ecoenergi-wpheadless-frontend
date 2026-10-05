@@ -1,4 +1,5 @@
-<script> 
+<script>    import { optimised, srcset } from '$lib/utils/img';
+ 
     import { strapiMedia } from '$lib/utils/media';
     export let data;
 
@@ -11,9 +12,9 @@
         {#if item.mime === 'image/jpeg' || item.mime === 'image/png' || item.mime === 'image/gif' || item.mime === 'image/webp'}
             <figure >
                 {#if item.formats.medium}
-                <img loading="lazy" width={item.formats.medium.width} height={item.formats.medium.height} src={strapiMedia(item.formats.medium.url)} alt={item.alternativeText || ''} />
+                <img loading="lazy" width={item.formats.medium.width} height={item.formats.medium.height} src={optimised(strapiMedia(item.url), 1024)} srcset={srcset(strapiMedia(item.url), item.width || Infinity)} sizes="(min-width: 1024px) 50vw, 100vw" alt={item.alternativeText || ''} />
                 {:else}
-                <img loading="lazy" width={item.width} height={item.height} src={strapiMedia(item.url)} alt={item.alternativeText || ''} />
+                <img loading="lazy" width={item.width} height={item.height} src={optimised(strapiMedia(item.url), 1024)} srcset={srcset(strapiMedia(item.url), item.width || Infinity)} sizes="(min-width: 1024px) 50vw, 100vw" alt={item.alternativeText || ''} />
                 {/if}
             </figure>
         {:else if item.mime === 'video/mp4' || item.mime === 'video/webm' || item.mime === 'video/ogg'}

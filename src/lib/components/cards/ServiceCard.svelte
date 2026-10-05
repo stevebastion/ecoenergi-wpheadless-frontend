@@ -1,4 +1,5 @@
 <script>
+    import { optimised, srcset } from '$lib/utils/img';
     export let title;
     export let iconURL = '';
     export let description;
@@ -20,7 +21,7 @@
                 <img loading="lazy" src="{iconURL}" alt="" />
             </span>
         {/if}
-        <img loading="lazy" src="{imageSrc}" alt="{imageAlt}" width="{imageWidth}" height="{imageHeight}" />
+        <img loading="lazy" decoding="async" src={optimised(imageSrc, 1024)} srcset={srcset(imageSrc, imageWidth)} sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" alt="{imageAlt}" width="{imageWidth}" height="{imageHeight}" />
     </figure>
     <div>
         <header>

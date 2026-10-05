@@ -1,4 +1,5 @@
 <script>
+    import { optimised, srcset } from '$lib/utils/img';
     import { page } from '$app/stores';
     import { strapiMedia } from '$lib/utils/media';
     import RichText from '$lib/components/page-builder/RichText.svelte';
@@ -48,7 +49,9 @@
                 loading="lazy" 
                 width="{data.service.cover_image.width}" 
                 height="{data.service.cover_image.height}" 
-                src="{strapiMedia(data.service.cover_image.url)}" 
+                src={optimised(strapiMedia(data.service.cover_image.url), 1024)}
+                srcset={srcset(strapiMedia(data.service.cover_image.url), data.service.cover_image.width || Infinity)}
+                sizes="(min-width: 1024px) 33vw, 100vw"
                 alt="{data.service.cover_image.alternativeText || data.service.title}" 
             />
         {/if}

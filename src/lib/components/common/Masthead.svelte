@@ -29,7 +29,7 @@
     .masthead {
        background: var( --color-primary );
        color: var( --color-light );
-       background-image: url('/std-header.jpg');
+       background-image: url('/std-header.webp');
        background-size: cover;
        background-position: center;
        position: relative;
@@ -110,7 +110,7 @@
             height: max( min( 100vh, 700px ), 50vh );
             background: var( --color-secondary );
             z-index: 0;
-            background-image: url('/std-header.jpg');
+            background-image: url('/std-header.webp');
             background-size: cover;
             background-position: center;
         } 

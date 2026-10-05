@@ -6,7 +6,6 @@
 
     export let articles = [];
 
-    console.log('Latest Articles:', articles);
 
     const sliderOptions = {
         type: 'carousel',

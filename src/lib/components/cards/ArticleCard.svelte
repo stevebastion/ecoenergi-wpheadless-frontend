@@ -1,4 +1,5 @@
 <script>
+    import { optimised, srcset } from '$lib/utils/img';
     export let title;
     export let description;
     export let image;
@@ -7,7 +8,7 @@
 </script>
 <a href={url} class="card card--common card--article">
     <figure class="img-cover">
-        <img loading="lazy" src={image} alt="" />
+        <img loading="lazy" decoding="async" src={optimised(image, 1024)} srcset={srcset(image)} sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" alt="" />
     </figure>
     <div>
         <time datetime={date}>{new Date(date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</time>

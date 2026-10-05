@@ -79,7 +79,7 @@
   </div>
   
   
- <img loading="lazy" src="/contact-bg.jpg" alt="" />
+ <img loading="lazy" src="/contact-bg.webp" alt="" />
 
 </footer>
 

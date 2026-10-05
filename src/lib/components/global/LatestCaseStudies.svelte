@@ -5,7 +5,6 @@
     import Button from '$lib/components/common/Button.svelte';
     export let caseStudies = [];
 
-    console.log('Latest Case Studies:', caseStudies);
 
     const sliderOptions = {
         type: 'carousel',

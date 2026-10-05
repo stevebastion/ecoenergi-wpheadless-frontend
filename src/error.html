@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en-GB">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<meta name="theme-color" content="#123053" />
+		<link rel="icon" href="/favicon.ico" sizes="48x48" />
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<title>Something went wrong | Eco Energi</title>
+		<!--
+			Last-resort page: only used when the site layout itself cannot render
+			(otherwise src/routes/+error.svelte is shown). Self-contained on purpose:
+			no JS, no app CSS, no WordPress calls.
+		-->
+		<style>
+			* { box-sizing: border-box; }
+			body {
+				margin: 0;
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 2rem;
+				background: #123053;
+				color: #fff;
+				font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+				line-height: 1.6;
+			}
+			main { max-width: 36rem; }
+			img { width: 160px; height: auto; margin-bottom: 3rem; }
+			.status {
+				margin: 0 0 0.5rem;
+				font-size: clamp(5rem, 18vw, 9rem);
+				font-weight: 700;
+				line-height: 1;
+				color: transparent;
+				-webkit-text-stroke: 1px #0094c6;
+			}
+			h1 { margin: 0 0 1rem; font-size: clamp(1.75rem, 5vw, 2.5rem); line-height: 1.2; }
+			p { margin: 0 0 2rem; }
+			a {
+				display: inline-block;
+				padding: 0.75rem 1.75rem;
+				border: 1px solid #d4eb3c;
+				border-radius: 40px;
+				color: #fff;
+				font-weight: 600;
+				text-decoration: none;
+			}
+			a:hover { background: #d4eb3c; color: #123053; }
+			a:focus-visible { outline: 2px solid #123053; box-shadow: 0 0 0 5px #d4eb3c; }
+		</style>
+	</head>
+	<body>
+		<main>
+			<img src="/logo.svg" width="160" height="34" alt="Eco Energi" />
+			<p class="status" aria-hidden="true">%sveltekit.status%</p>
+			<h1>Something went wrong</h1>
+			<p>That's a problem on our side, not yours. Please try again in a moment.</p>
+			<a href="/">Back to home</a>
+		</main>
+	</body>
+</html>

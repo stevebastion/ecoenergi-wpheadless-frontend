@@ -46,7 +46,19 @@ export function resolveSeo({
 
 		canonical: `${base}${path === '/' ? '/' : path.replace(/\/+$/, '')}${query}`,
 
-		image: resolveShareImage(pageSeo?.shareImage || globalSeo?.shareImage || pageImage)
+		image:
+			resolveShareImage(pageSeo?.shareImage || globalSeo?.shareImage || pageImage) ||
+			defaultShareImage(base)
+	};
+}
+
+/** Site-wide fallback so every page has an og:image. */
+function defaultShareImage(base) {
+	return {
+		url: `${base}/og-default.png`,
+		width: 1200,
+		height: 630,
+		alt: SITE_NAME
 	};
 }
 

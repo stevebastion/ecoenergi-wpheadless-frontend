@@ -13,8 +13,9 @@
   let mapContainer;
   let observer;
   let hasLoaded = false;
+  let ready = false;
 
-  console.log( "Center", center );
+
 
   async function initMap() {
     if (hasLoaded) return;
@@ -37,11 +38,10 @@
       zoom
     });
 
+    map.once('load', () => (ready = true));
     map.addControl(new mapboxgl.NavigationControl());
 
     markers.forEach((m) => {
-
-        console.log( 'Marker:', m.coordinates[0] + ' ' + m.coordinates[1] );
         
       const marker = new mapboxgl.Marker()
         .setLngLat([m.coordinates[0], m.coordinates[1]]);
@@ -81,10 +81,12 @@
   });
 </script>
 
-<div bind:this={mapContainer} class="map">
-  <div class="map__placeholder">
-    Loading map…
-  </div>
+<div class="map">
+  <!-- Mapbox needs an EMPTY container, so the placeholder is a sibling. -->
+  <div bind:this={mapContainer} class="map__canvas"></div>
+  {#if !ready}
+    <div class="map__placeholder">Loading map…</div>
+  {/if}
 </div>
 
 <style>
@@ -96,6 +98,11 @@
     overflow: hidden;
     background: #f3f3f3;
 
+  }
+
+  .map__canvas {
+    position: absolute;
+    inset: 0;
   }
 
   .map__placeholder {

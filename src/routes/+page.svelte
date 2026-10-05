@@ -1,4 +1,5 @@
 <script>
+    import { optimised, srcset } from '$lib/utils/img';
 	import { page } from '$app/stores';
 	import { strapiMedia } from '$lib/utils/media';
 	import CaseStudyCard from '$lib/components/cards/CaseStudyCard.svelte';
@@ -66,7 +67,9 @@
 	{:else if data.pageData.banner_video_poster}
 		<img
 			class="masthead__image img-cover"
-			src={data.pageData.banner_video_poster.url}
+			src={optimised(data.pageData.banner_video_poster.url, 1920)}
+			srcset={srcset(data.pageData.banner_video_poster.url, data.pageData.banner_video_poster.width || Infinity)}
+			sizes="100vw"
 			width={data.pageData.banner_video_poster.width}
 			height={data.pageData.banner_video_poster.height}
 			fetchpriority="high"

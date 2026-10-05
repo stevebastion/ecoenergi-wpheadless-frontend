@@ -1,4 +1,5 @@
 <script>
+    import { optimised, srcset } from '$lib/utils/img';
     import { page } from '$app/stores';
     import { strapiMedia } from '$lib/utils/media';
   export let data;
@@ -38,7 +39,7 @@
                 
                 {#if data.article.cover}
                     <figure class="img-cover featured-image">
-                        <img loading="lazy" width="{data.article.cover.width}" height="{data.article.cover.height}" src={strapiMedia(data.article.cover.formats?.large?.url || data.article.cover.url)} alt={data.article.cover.alternativeText || ''} />
+                        <img loading="lazy" width="{data.article.cover.width}" height="{data.article.cover.height}" src={optimised(strapiMedia(data.article.cover.url), 1280)} srcset={srcset(strapiMedia(data.article.cover.url), data.article.cover.width || Infinity)} sizes="(min-width: 1024px) 50vw, 100vw" alt={data.article.cover.alternativeText || ''} />
                     </figure>
                 {/if}
             </div>

@@ -1,25 +1,19 @@
+import { trimTrailingSlash } from './resolveNavPath';
+
 export function isNavItemActive(item, pathname) {
-
-  //console.log('Checking isNavItemActive for item:', item, 'with pathname:', pathname);
-
   if (!item) return false;
 
-  // External links are never "active"
-  //if (item.type === 'EXTERNAL') return false;
-
   // Use resolved path if available
-  const path =
-    item.externalPath ||
-    item.path ||
-    '';
+  const raw = item.externalPath || item.path || '';
+  if (!raw) return false;
 
-  if (!path) return false;
+  // WordPress paths end in '/', SvelteKit pathnames don't. Compare without.
+  const path = trimTrailingSlash(raw);
+  const current = trimTrailingSlash(pathname || '/');
 
-  // Exact match
-  if (pathname === path) return true;
+  // The home link must only match the home page, not every page.
+  if (path === '/') return current === '/';
 
-  // Section match (children, deep routes)
-  if (pathname.startsWith(path + '/')) return true;
-
-  return false;
+  // Exact match, or a deeper route inside this section
+  return current === path || current.startsWith(path + '/');
 }

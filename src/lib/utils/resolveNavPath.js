@@ -17,6 +17,12 @@ export function resolveNavPath(item) {
   }
 
   // Internal items — `path` is the WP page URI (e.g. '/about/'), already
-  // site-relative thanks to `adaptMenu`/`stripOrigin`.
-  return item.path || '/';
+  // site-relative thanks to `adaptMenu`/`stripOrigin`. WordPress uses trailing
+  // slashes; SvelteKit routes don't, so drop it to avoid a redirect per click
+  // and to keep the active-link check working.
+  return trimTrailingSlash(item.path || '/');
+}
+
+export function trimTrailingSlash(path = '/') {
+  return path.length > 1 ? path.replace(/\/+$/, '') : path;
 }

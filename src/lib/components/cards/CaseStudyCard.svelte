@@ -1,4 +1,5 @@
 <script>
+    import { optimised, srcset } from '$lib/utils/img';
     export let title = "Case Study Title";
     export let imageSrc = "https://images.pexels.com/photos/35687782/pexels-photo-35687782.jpeg";
     export let url = "#";
@@ -27,7 +28,7 @@
         </div>
         {/if}
     </div>
-    <img loading="lazy" src="{imageSrc}" alt="" />
+    <img loading="lazy" decoding="async" src={optimised(imageSrc, 1024)} srcset={srcset(imageSrc)} sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" alt="" />
 </a>
 
 
